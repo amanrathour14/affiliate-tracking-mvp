@@ -1,0 +1,18 @@
+{
+  "name": "affiliate-tracking-mvp",
+  "version": "1.0.0",
+  "description": "Full-stack affiliate postback tracking system with MySQL",
+  "main": "index.js",
+  "scripts": {
+    "install-all": "cd backend && npm install && cd ../frontend && npm install",
+    "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm run dev\"",
+    "start": "concurrently \"cd backend && npm start\" \"cd frontend && npm start\"",
+    "migrate": "cd backend && npm run migrate"
+  },
+  "keywords": ["affiliate", "tracking", "postback", "mysql", "nextjs", "express"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  }
+}
