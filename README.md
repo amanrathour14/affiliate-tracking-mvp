@@ -1,6 +1,6 @@
-# Affiliate Tracking MVP
+# Affiliate Postback Tracking MVP
 
-This project is a minimum viable product (MVP) for an affiliate tracking system that uses Server-to-Server (S2S) postbacks to track conversions.
+This project is a full-stack affiliate tracking minimum viable product (MVP) for an affiliate tracking system that uses Server-to-Server (S2S) postbacks to track conversions.
 
 ## System Overview
 
@@ -37,7 +37,19 @@ In this MVP:
 - **Affiliate Dashboard:** Displays conversions in a frontend application.
 - **Unique Postback URL Generation:** Affiliates can see their own postback URL format.
 
-## Project Architecture
+## 🏗️ Project Architecture
+
+```
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   Frontend      │    │   Backend API   │    │   SQL           │
+│   (Next.js)     │◄──►│   (Express)     │◄──►│   Database      │
+│                 │    │                 │    │                 │
+│ • Login Page    │    │ • Click Tracking│    │ • affiliates    │
+│ • Dashboard     │    │ • Postbacks     │    │ • campaigns     │
+│ • Postback URL  │    │ • Affiliate API │    │ • clicks        │
+└─────────────────┘    └─────────────────┘    │ • conversions   │
+                                              └─────────────────┘
+```
 
 ### Backend (Node.js/Express)
 
@@ -59,12 +71,36 @@ In this MVP:
   - Stats cards for key metrics
   - Loading and error states
 
-### Database Schema
+### 📊 Database Schema
 
 - **affiliates**: Stores affiliate information
 - **campaigns**: Tracks different marketing campaigns
 - **clicks**: Records click data with affiliate and campaign references
 - **conversions**: Stores conversion data linked to clicks
+
+### Tables
+
+#### `affiliates`
+- `id` (SERIAL PRIMARY KEY)
+- `name` (VARCHAR(100))
+
+#### `campaigns`
+- `id` (SERIAL PRIMARY KEY)
+- `name` (VARCHAR(100))
+
+#### `clicks`
+- `id` (SERIAL PRIMARY KEY)
+- `affiliate_id` (INT, REFERENCES affiliates.id)
+- `campaign_id` (INT, REFERENCES campaigns.id)
+- `click_id` (VARCHAR(100), UNIQUE per affiliate+campaign)
+- `timestamp` (TIMESTAMP DEFAULT NOW())
+
+#### `conversions`
+- `id` (SERIAL PRIMARY KEY)
+- `click_id` (INT, REFERENCES clicks.id)
+- `amount` (FLOAT)
+- `currency` (VARCHAR(10))
+- `timestamp` (TIMESTAMP DEFAULT NOW())
 
 ## Getting Started
 
@@ -192,7 +228,7 @@ In this MVP:
 
 - If the migration fails, you can manually execute the SQL commands from `backend/migrations/schema.sql` in your MySQL client.
 
-## API Endpoints
+##🔌API Endpoints
 
 ### Click Tracking
 
@@ -304,6 +340,31 @@ In this MVP:
   }
   ```
 
+## 🔧 Development
+
+### Backend Structure
+```
+backend/
+├── server.js          # Main Express server
+├── database.js        # PostgreSQL connection
+├── routes/
+│   ├── clicks.js      # Click tracking routes
+│   ├── postbacks.js   # Conversion postback routes
+│   └── affiliates.js  # Affiliate data routes
+├── migrations.sql     # Database schema
+└── package.json
+```
+### Frontend Structure
+```
+frontend/
+├── src/app/
+│   ├── page.tsx                           # Login page
+│   ├── dashboard/[affiliate_id]/page.tsx   # Dashboard
+│   └── postback-url/[affiliate_id]/page.tsx # Postback URL
+├── tailwind.config.js
+└── package.json
+```
+
 ## Affiliate Dashboard
 
 The affiliate dashboard is available at `http://localhost:3000`. This user-friendly interface provides affiliates with real-time data and tracking tools.
@@ -321,3 +382,5 @@ The affiliate dashboard is available at `http://localhost:3000`. This user-frien
 2. Open your browser and navigate to `http://localhost:3000`.
 3. Select an affiliate from the dropdown menu to load their data.
 4. The dashboard will display the affiliate's clicks, conversions, and their unique postback URL format.
+
+**Happy Tracking! 🎯**
