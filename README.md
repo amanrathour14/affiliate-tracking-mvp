@@ -73,6 +73,11 @@ In this MVP:
 
 ### 📊 Database Schema
 
+- **affiliates**: Stores affiliate information
+- **campaigns**: Tracks different marketing campaigns
+- **clicks**: Records click data with affiliate and campaign references
+- **conversions**: Stores conversion data linked to clicks
+
 ### Tables
 
 #### `affiliates`
@@ -96,11 +101,6 @@ In this MVP:
 - `amount` (FLOAT)
 - `currency` (VARCHAR(10))
 - `timestamp` (TIMESTAMP DEFAULT NOW())
-
-- **affiliates**: Stores affiliate information
-- **campaigns**: Tracks different marketing campaigns
-- **clicks**: Records click data with affiliate and campaign references
-- **conversions**: Stores conversion data linked to clicks
 
 ## Getting Started
 
