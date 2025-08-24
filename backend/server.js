@@ -34,6 +34,11 @@ app.use('*', (req, res) => {
   res.status(404).json({ status: 'error', message: 'Endpoint not found' });
 });
 
+
+app.get("/", (req, res) => {
+  res.json({ status: "success", message: "Backend is running 🚀" });
+});
+
 // Error handling middleware (must be last)
 app.use(errorHandler);
 
